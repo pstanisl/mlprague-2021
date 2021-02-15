@@ -32,12 +32,19 @@ account the states that are likely to follow and the rewards available in those 
 example, a state might always yield a low immediate reward but still have a high value
 because it is regularly followed by other states that yield high rewards.
 
-## Other subelements:
-- State
-- Action
+## Other subelements for RL terminology:
+- Actions - we thought of this as "pulling the bandit arm". Action is what agent does. If you have three advertisements (e.g. iPhone, Huawei, Samsung) so that you can possibly show to a user three possible actions. Actions can also be continuous, e.g. how many degrees to rotate a steering wheel.
+- States - an online advertising system: State = [age, gender, day, time]; a temperature controller: State = [temperature, humidity].
+
+```math
+x: feature representation of state
+w: model parameters
+$n^2$y
+```
+
 - Environment - e.g. Gridworld, what game we are playing
-- Punish
-- Reward 
+- Punishment -  
+- Rewards - references to psychology; RL has been used to model animal behavior. RL agent's goal is in the future. In contract, a supervised model simply tries to get good accuracy / minimaze cost on current input. RL algorithm get feedback signals (rewards) come from the environment (i.e. the agent experiences them). Supervised models instantly know if it is wrong/right, because inputs + target are provided simultaneously. RL is dynamic - if agent solves a maze, it only knows its decisions were corrent if it eventually solves the maze.
 - Returns (sum of future rewards)
 - Value (Expected sum of future rewards)
 - Learning - Reinforcing desired behavior
