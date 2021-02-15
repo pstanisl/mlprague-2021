@@ -36,11 +36,10 @@ because it is regularly followed by other states that yield high rewards.
 - Actions - we thought of this as "pulling the bandit arm". Action is what agent does. If you have three advertisements (e.g. iPhone, Huawei, Samsung) so that you can possibly show to a user three possible actions. Actions can also be continuous, e.g. how many degrees to rotate a steering wheel.
 - States - an online advertising system: State = [age, gender, day, time]; a temperature controller: State = [temperature, humidity].
 
-```math
-x: feature representation of state
-w: model parameters
-$n^2$y
-```
+![first equation](https://latex.codecogs.com/gif.latex?x%3A) *feature representation of state*  
+![second equation](https://latex.codecogs.com/gif.latex?w%3A) *model parameters*  
+![third equation](https://latex.codecogs.com/gif.latex?%5Chat%7By%7D%20%3D%20w%5E%7BT%7Dx) *expected reward*  
+![fourth equation](https://latex.codecogs.com/gif.latex?y%3A) *true reward*  
 
 - Environment - e.g. Gridworld, what game we are playing
 - Punishment -  
