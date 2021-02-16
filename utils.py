@@ -1,4 +1,5 @@
 import csv
+import numpy as np
 
 MOVIELENS_NUM_USERS = 943
 MOVIELENS_NUM_MOVIES = 1682
