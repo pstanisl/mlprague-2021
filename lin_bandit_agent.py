@@ -20,6 +20,7 @@ from tf_agents.agents import tf_agent
 from tf_agents.bandits.agents import linear_bandit_agent as lin_agent
 from tf_agents.bandits.agents import utils as bandit_utils
 from tf_agents.bandits.policies import linalg  # NOTE: Maybe unnecessary
+from tf_agents.bandits.policies import linear_bandit_policy
 from tf_agents.bandits.policies import policy_utilities
 from tf_agents.bandits.specs import utils as bandit_spec_utils
 from tf_agents.policies import tf_policy
@@ -124,19 +125,19 @@ class LinearBanditAgent(tf_agent.TFAgent):
     self._use_eigendecomp = use_eigendecomp
     self._tikhonov_weight = tikhonov_weight
 
-    # policy = LinearUCBPolicy(
-    #     action_spec=action_spec,
-    #     cov_matrix=self._cov_matrix_list,
-    #     data_vector=self._data_vector_list,
-    #     num_samples=self._num_samples_list,
-    #     time_step_spec=time_step_spec,
-    #     alpha=alpha,
-    #     eig_vals=self._eig_vals_list if self._use_eigendecomp else (),
-    #     eig_matrix=self._eig_matrix_list if self._use_eigendecomp else (),
-    #     tikhonov_weight=self._tikhonov_weight,
-    #     add_bias=add_bias,
-    #     emit_policy_info=emit_policy_info,
-    #     emit_log_probability=emit_log_probability)
+    policy = linear_bandit_policy.LinearUCBPolicy(
+        action_spec=action_spec,
+        cov_matrix=self._cov_matrix_list,
+        data_vector=self._data_vector_list,
+        num_samples=self._num_samples_list,
+        time_step_spec=time_step_spec,
+        alpha=alpha,
+        eig_vals=self._eig_vals_list if self._use_eigendecomp else (),
+        eig_matrix=self._eig_matrix_list if self._use_eigendecomp else (),
+        tikhonov_weight=self._tikhonov_weight,
+        add_bias=add_bias,
+        emit_policy_info=emit_policy_info,
+        emit_log_probability=emit_log_probability)
 
     training_data_spec = None
 
