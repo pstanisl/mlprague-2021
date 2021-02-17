@@ -109,10 +109,16 @@ class LinearBanditAgent(tf_agent.TFAgent):
         dtype=dtype)
 
     self._variable_collection = variable_collection
+    print("inside: _variable_collection", self._variable_collection)
     self._cov_matrix_list = variable_collection.cov_matrix_list
+    print("inside: _cov_matrix_list", self._cov_matrix_list)
     self._data_vector_list = variable_collection.data_vector_list
+    print("inside: _data_vector_list", self._data_vector_list)
     self._eig_matrix_list = variable_collection.eig_matrix_list
+    print("inside: _use_eigendecomp", self._use_eigendecomp)
+    print("inside: _eig_matrix_list", self._eig_matrix_list)
     self._eig_vals_list = variable_collection.eig_vals_list
+    print("inside: _eig_vals_list", self._eig_vals_list)
     # We keep track of the number of samples per arm.
     self._num_samples_list = variable_collection.num_samples_list
     self._gamma = gamma
