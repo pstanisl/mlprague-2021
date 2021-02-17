@@ -92,7 +92,7 @@ def plot_cumsum(df: pd.DataFrame, params: Dict[Text, Any], show_actions=False):
   plt.show()
 
 
-def plot_pdf(params: Dict[str, Any], type: int = 0):
+def plot_pdf(params: Dict[Text, Any], type: int = 0):
   plt.figure(figsize=(10, 7))
 
   if type == 0:
@@ -119,4 +119,15 @@ def plot_pdf(params: Dict[str, Any], type: int = 0):
   plt.xlabel('x')
   plt.ylabel('PDF')
   plt.title(f'Probability density function - {params["dist"]}')
+  plt.show()
+
+
+def plot_regret(values, params: Dict[Text, Any]):
+  plt.figure(figsize=(10, 7))
+
+  plt.plot(values, label='regret')
+
+  plt.title(f'Regret of {params["algorithm"]} on MovieLens environment')
+  plt.xlabel('Number of Iterations')
+  plt.ylabel('Average Regret')
   plt.show()
