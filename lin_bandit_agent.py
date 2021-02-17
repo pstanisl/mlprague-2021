@@ -40,6 +40,7 @@ class LinearBanditAgent(tf_agent.TFAgent):
                time_step_spec: types.TimeStep,
                action_spec: types.BoundedTensorSpec,
                policy: tf_policy.TFPolicy,
+               variable_collection: tf.Module,
                alpha: float = 1.0,
                gamma: float = 1.0,
                use_eigendecomp: bool = False,
@@ -102,23 +103,23 @@ class LinearBanditAgent(tf_agent.TFAgent):
     self._overall_context_dim = self._global_context_dim + self._arm_context_dim
 
     self._alpha = alpha
-    variable_collection = lin_agent.LinearBanditVariableCollection(
-        context_dim=self._overall_context_dim,
-        num_models=self._num_models,
-        use_eigendecomp=use_eigendecomp,
-        dtype=dtype)
+    # variable_collection = lin_agent.LinearBanditVariableCollection(
+    #    context_dim=self._overall_context_dim,
+    #    num_models=self._num_models,
+    #    use_eigendecomp=use_eigendecomp,
+    #    dtype=dtype)
 
     self._variable_collection = variable_collection
-    print("inside: _variable_collection", self._variable_collection)
+    # print("inside: _variable_collection", self._variable_collection)
     self._cov_matrix_list = variable_collection.cov_matrix_list
-    print("inside: _cov_matrix_list", self._cov_matrix_list)
+    # print("inside: _cov_matrix_list", self._cov_matrix_list)
     self._data_vector_list = variable_collection.data_vector_list
-    print("inside: _data_vector_list", self._data_vector_list)
+    # print("inside: _data_vector_list", self._data_vector_list)
     self._eig_matrix_list = variable_collection.eig_matrix_list
-    print("inside: _use_eigendecomp", self._use_eigendecomp)
-    print("inside: _eig_matrix_list", self._eig_matrix_list)
+    # print("inside: _use_eigendecomp", self._use_eigendecomp)
+    # print("inside: _eig_matrix_list", self._eig_matrix_list)
     self._eig_vals_list = variable_collection.eig_vals_list
-    print("inside: _eig_vals_list", self._eig_vals_list)
+    # print("inside: _eig_vals_list", self._eig_vals_list)
     # We keep track of the number of samples per arm.
     self._num_samples_list = variable_collection.num_samples_list
     self._gamma = gamma
