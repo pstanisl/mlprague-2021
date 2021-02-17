@@ -1,8 +1,20 @@
+from scipy.stats import beta, norm
+from typing import Any, Dict, Text
+
 import csv
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
+
+
+# Apply the default theme
+sns.set_theme()
+
 
 MOVIELENS_NUM_USERS = 943
 MOVIELENS_NUM_MOVIES = 1682
+
 
 def load_movielens_data(data_file):
   """Loads the movielens data and returns the ratings matrix."""
@@ -15,3 +27,96 @@ def load_movielens_data(data_file):
       user_id, item_id, rating, _ = row
       ratings_matrix[int(user_id) - 1, int(item_id) - 1] = float(rating)
   return ratings_matrix
+
+
+def create_accuracies(df: pd.DataFrame) -> pd.DataFrame:
+  df = df.copy()
+  df['price'] = 1
+  df = pd.pivot_table(df, index='trial', columns=['action'], aggfunc=np.sum).price
+  df['sum'] = df.sum(axis=1)
+  df = df.loc[:,:].div(df["sum"], axis=0)
+  df.columns = [f'action_{action}' for action in df.columns]
+
+  return df.reset_index().fillna(0)
+
+
+def plot_actions(df: pd.DataFrame, params: Dict[Text, Any]):
+  df_acc = create_accuracies(df)
+
+  plt.figure(figsize=(10, 7))
+
+  for action in sorted(df.action.unique()):
+      plt.plot(
+          df_acc.trial,
+          df_acc[f'action_{action}'],
+          label=f'action={action}'
+      )
+
+  plt.xlim(0)
+  plt.xlabel('Number of Trials')
+  plt.ylabel('Probability of Selecting Each Action')
+  plt.legend()
+  plt.title(f'Arm Selection Rate of the {params["algorithm"]} Algorithm')
+  plt.show()
+
+
+def plot_cumsum(df: pd.DataFrame, params: Dict[Text, Any], show_actions=False):
+  plt.figure(figsize=(10, 7))
+
+  df = df.copy()
+
+  if show_actions:
+    df_actions = df.groupby(['trial', 'action']).mean().reset_index()
+
+    for action in sorted(df.action.unique()):
+      plt.plot(
+          df_actions[df_actions['action']==action].trial,
+          df_actions[df_actions['action']==action].action_cum_sum,
+          label=f'action={int(action)} cumulative reward'
+      )
+
+  df_all = df.groupby('trial')['cum_sum'].mean().reset_index()
+
+  plt.plot(
+    df_all.trial,
+    df_all.cum_sum,
+    linestyle='--',
+    label='avg. agent cumulative reward'
+  )
+
+  plt.xlim(0)
+  plt.xlabel('Number of trials')
+  plt.ylabel('Cumulative Reward')
+  plt.legend()
+  plt.title(f'Cumulative Reward of the {params["algorithm"]} Algorithm')
+  plt.show()
+
+
+def plot_pdf(params: Dict[str, Any], type: int = 0):
+  plt.figure(figsize=(10, 7))
+
+  if type == 0:
+    x = np.linspace(
+        beta.ppf(0.01, params['alpha'], params['beta']),
+        beta.ppf(0.99, params['alpha'], params['beta']),
+        100
+    )
+    lines = plt.plot(
+        x, beta.pdf(x, params['alpha'], params['beta']), '-',
+        lw=1, alpha=0.6, label='beta pdf')
+  elif type == 1:
+    x = np.linspace(
+        norm.ppf(0.01, loc=params['mu'], scale=1/params['tau']),
+        norm.ppf(0.99, loc=params['mu'], scale=1/params['tau']),
+        100
+    )
+    lines = plt.plot(
+        x, norm.pdf(x, loc=params['mu'], scale=1/params['tau']), '-',
+        lw=1, alpha=0.6, label='norm pdf')
+
+  #lines = ax.plot(x,y.T[:,:])
+  plt.legend(lines, [f'action={j}' for j in range(len(lines))])
+  plt.xlabel('x')
+  plt.ylabel('PDF')
+  plt.title(f'Probability density function - {params["dist"]}')
+  plt.show()
