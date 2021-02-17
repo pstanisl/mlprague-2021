@@ -125,7 +125,7 @@ class LinearBanditAgent(tf_agent.TFAgent):
     self._use_eigendecomp = use_eigendecomp
     self._tikhonov_weight = tikhonov_weight
 
-    policy = linear_bandit_policy.LinearUCBPolicy(
+    policy = linear_bandit_policy.LinearBanditPolicy(
         action_spec=action_spec,
         cov_matrix=self._cov_matrix_list,
         data_vector=self._data_vector_list,
