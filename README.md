@@ -1,4 +1,4 @@
-# MLPrague 2020 - How to Make Data-Driven Decisions: The Case for Contextual Multi-armed Bandits
+# MLPrague 2021 - How to Make Data-Driven Decisions: The Case for Contextual Multi-armed Bandits
 
 > Other names: associative reinforcement learning, associative bandits,learning with partial feedback, bandits with side information
 
