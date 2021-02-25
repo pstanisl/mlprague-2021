@@ -40,6 +40,27 @@ def create_accuracies(df: pd.DataFrame) -> pd.DataFrame:
   return df.reset_index().fillna(0)
 
 
+def plot_accuracy(df: pd.DataFrame, params: Dict[Text, Any]):
+ plt.figure(figsize=(10, 7))
+
+ for epsilon in df.epsilon.unique():
+   df_acc = create_accuracies(df[df.epsilon == epsilon])
+
+   plt.plot(
+       df_acc.trial,
+       df_acc[f'action_{params["best_action"]}'],
+       label=f'action={params["best_action"]} (epsilon={epsilon})'
+   )
+
+ plt.xlim(0)
+ plt.ylim(0, 1)
+ plt.xlabel('Number of trials')
+ plt.ylabel('Probability of Selecting Best Arm')
+ plt.title(f'Accuracy of the best actions - {params["algorithm"]} Algorithm')
+ plt.legend()
+ plt.show()
+
+
 def plot_actions(df: pd.DataFrame, params: Dict[Text, Any]):
   df_acc = create_accuracies(df)
 
@@ -127,6 +148,8 @@ def plot_regret(values, params: Dict[Text, Any]):
 
   plt.plot(values, label='regret')
 
+  plt.xlim(0)
+  plt.ylim(0)
   plt.title(f'Regret of {params["algorithm"]} on MovieLens environment')
   plt.xlabel('Number of Iterations')
   plt.ylabel('Average Regret')
