@@ -16,6 +16,20 @@ MOVIELENS_NUM_USERS = 943
 MOVIELENS_NUM_MOVIES = 1682
 
 
+
+def trajectory_for_bandit(initial_step, action_step, final_step):
+  import tf
+  from tf_agents.trajectories import trajectory
+
+  return trajectory.Trajectory(observation=tf.expand_dims(initial_step.observation, 0),
+                               action=tf.expand_dims(action_step.action, 0),
+                               policy_info=action_step.info,
+                               reward=tf.expand_dims(final_step.reward, 0),
+                               discount=tf.expand_dims(final_step.discount, 0),
+                               step_type=tf.expand_dims(initial_step.step_type, 0),
+                               next_step_type=tf.expand_dims(final_step.step_type, 0))
+
+
 def load_movielens_data(data_file):
   """Loads the movielens data and returns the ratings matrix."""
   ratings_matrix = np.zeros([MOVIELENS_NUM_USERS, MOVIELENS_NUM_MOVIES])
