@@ -16,9 +16,8 @@ MOVIELENS_NUM_USERS = 943
 MOVIELENS_NUM_MOVIES = 1682
 
 
-
 def trajectory_for_bandit(initial_step, action_step, final_step):
-  import tf
+  import tensorflow as tf
   from tf_agents.trajectories import trajectory
 
   return trajectory.Trajectory(observation=tf.expand_dims(initial_step.observation, 0),
